@@ -1,14 +1,35 @@
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Company {
 	private static ArrayList<Employee> employees;
 	private static HashMap<String, Employee> departmentToExecutive;
 	
 	//Creates and assigns new task
-	public static void giveTask() {
-		//Receive input to create new task
-		employee.assignTask(new Task());
+	public static void giveTask(Employee employee) {
+		//Prompt for name of task
+		String name = InputHelper.readString("What is the name of the task?");
+		//Prompt for priority of task, input restricted to values in Priority enum
+		boolean isValidPriority = false;
+		Priority priority = null;
+		while(!isValidPriority) {
+			String prompt = ("What is the priority of this task?" + Arrays.toString(Priority.values()));
+			String input = InputHelper.readString(prompt).toUpperCase();
+			//Throws exception if input is not value of Priority
+			try {
+				priority = Priority.valueOf(input); 
+				isValidPriority = true;
+			}
+			//If invalid input, display error message and prompt again
+			catch(Exception e) {
+				System.out.println(input + " is not a valid priority option.");
+			}
+		}
+		//Create new task from input
+		Task newTask = new Task(name, priority);
+		//Assign new task to employee
+		employee.assignTask(newTask);
 	}	
 	//Adds employee and maps to department if employee is executive
 	public static void addEmployee() {
@@ -35,6 +56,5 @@ public class Company {
 	}
 
 	public static void main(String[] args) {
-		
 	}
 }
