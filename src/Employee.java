@@ -6,10 +6,17 @@ public abstract class Employee {
 	protected int bonus;
 	protected ArrayList<Task> tasks;
 	
-	
-	public Task assignTask(Task t1)
+	public Employee(String name, String title, int bonus)
 	{
-		
+		this.name = name;
+		this.title = title;
+		this.bonus = bonus;
+		this.tasks = new ArrayList<Task>();
+	}
+	
+	public void assignTask(Task t1)
+	{
+		this.tasks.add(t1);
 	}
 	
 	public abstract int calculatePay();
@@ -21,7 +28,7 @@ public abstract class Employee {
 	
 	public void removeTask(Task t1)
 	{
-		
+		this.tasks.remove((Task)t1);
 	}
 	
 	
