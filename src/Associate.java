@@ -10,7 +10,10 @@ public class Associate extends Employee {
 		return superior.getName();
 	}
 	public String toString() {
-		String retVal = name + " has tasks " + tasks + "\n\t and has superior " + superior.getName();
-		return retVal;
+		String taskInfo = "tasks " + tasks.toString();
+		if(tasks.size() == 0) {
+			taskInfo = "no tasks";
+		}
+		return "\n" + name + ", " + title + ", has " + taskInfo + "\n\t and has superior " + superior.getName();
 	}
 }

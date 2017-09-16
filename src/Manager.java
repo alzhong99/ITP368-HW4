@@ -16,11 +16,17 @@ public class Manager extends Employee implements HasSubordinates {
 		return superior.getName();
 	}
 	public String toString() {
-		String retVal = name + " has tasks " + tasks + "\n\t and has subordinates ";
-		for(Employee subordinate: subordinates) {
-			retVal = retVal + "[" + subordinate.getName() + "] ";
+		String taskInfo = "tasks " + tasks.toString();
+		if(tasks.size() == 0) {
+			taskInfo = "no tasks";
 		}
-		retVal = retVal + "\n\t and has superior " + superior.getName();
-		return retVal;
+		String subordinatesInfo = "subordinates ";
+		for(Employee subordinate: subordinates) {
+			subordinatesInfo = subordinatesInfo + "[" + subordinate.getName() + "] ";
+		}
+		if(subordinates.size() == 0) {
+			subordinatesInfo = "no subordinates";
+		}
+		return "\n" + name + ", " + title + ", has " + taskInfo + "\n\t and has " + subordinatesInfo + "\n\t and has superior " + superior.getName();
 	}
 }
