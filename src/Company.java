@@ -3,10 +3,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Company {
-	private static ArrayList<Executive> executives;
-	private static ArrayList<Manager> managers;
-	private static ArrayList<Associate> associates;
-	private static HashMap<String, Executive> departmentToExecutive;
+	private static String companyName = null;
+	private static ArrayList<Executive> executives = new ArrayList<Executive>();
+	private static ArrayList<Manager> managers = new ArrayList<Manager>();
+	private static ArrayList<Associate> associates = new ArrayList<Associate>();
+	private static HashMap<String, Executive> departmentToExecutive = new HashMap<String, Executive>();
 	
 	//Prints employees of a given level and prompts user to enter employee's displayed number
 	public static String getEmployeeOfLevel(String level) {
@@ -110,9 +111,14 @@ public class Company {
 	}
 	//Prints company departments and executives
 	public static void printDepartments() {
-		System.out.println("Company has departments:");
-		for(String department: departmentToExecutive.keySet()) {
-			System.out.println("\t" + department + " headed by " + departmentToExecutive.get(department).getName());
+		if(!departmentToExecutive.isEmpty()) {
+			System.out.println("Company has departments:");
+			for(String department: departmentToExecutive.keySet()) {
+				System.out.println("\t" + department + " headed by " + departmentToExecutive.get(department).getName());
+			}
+		}
+		else{
+			System.out.println("There currently no departments available.");
 		}
 	}
 	//Prints company employees
@@ -122,7 +128,40 @@ public class Company {
 		System.out.println(managers);
 		System.out.println(associates);
 	}
-
+	public static void printMenuOptions()
+	{
+		System.out.println("\n***** Welcome to " + companyName + " *****");
+		
+		System.out.println("1: Add Employee");
+		System.out.println("2. Print All Departments");
+		System.out.println("3. Give Task to Employee");
+		
+		System.out.println("\n**********************************************\n");
+	}
+	public static void askForAction()
+	{
+		boolean hasnotQuit = false;
+		
+		while(!hasnotQuit)
+		{
+			printMenuOptions();
+			int choice = InputHelper.readIntBetween("Choose a number:", 1, 4);
+			switch(choice) {
+			case 1:{
+				addEmployee();
+				break;
+			}
+			case 2:{
+				printDepartments();
+				break;
+			}
+			}
+			
+		}
+	}
 	public static void main(String[] args) {
+		companyName = InputHelper.readString("What would you like the software company name to be?");
+		askForAction();
+		
 	}
 }
