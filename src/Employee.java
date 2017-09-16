@@ -30,6 +30,8 @@ public abstract class Employee {
 	{
 		this.tasks.remove((Task)t1);
 	}
-	
+	public String getName() {
+		return name;
+	}
 	
 }
