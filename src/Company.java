@@ -8,6 +8,7 @@ public class Company {
 	private static ArrayList<Associate> associates;
 	private static HashMap<String, Executive> departmentToExecutive;
 	
+	//Prints employees of a given level and prompts user to enter employee's displayed number
 	public static String getEmployeeOfLevel(String level) {
 		switch(level) {
 		case "executive": {
@@ -29,7 +30,7 @@ public class Company {
 			break;
 		}
 		}
-		return "Choose the number of the employee: ";
+		return "Enter the number of the employee: ";
 	}
 	//Creates and assigns new task
 	public static void giveTask(Employee employee) {
@@ -62,21 +63,22 @@ public class Company {
 		//Receive input to create new employee
 		String name = InputHelper.readString("What is the employee's name?");
 		String title = InputHelper.readString("What is the employee's title?");
-		int bonus = InputHelper.readPositiveInt("What is the employee's bonus?");
 		String level = InputHelper.readString("What is the employee's level? Type E for executive, M for manager, or A for associate.");
 		switch(level.toLowerCase()) {
+		//If executive, add to map and executives ArrayList
 		case "e": {
-			employee = new Executive(name, title, bonus);
+			employee = new Executive(name, title);
 			String department = InputHelper.readString("What department is this executive in charge of?");
 			departmentToExecutive.put(department, (Executive) employee);
 			executives.add((Executive) employee);
 			break;
 		}
+		//If manager, set superior, add to superior's subordinates, and add to managers ArrayList
 		case "m": {
 			if(executives.size() > 0) {
 				System.out.println("Who is this manager's superior?");
 				int superior = InputHelper.readIntBetween(getEmployeeOfLevel("executive"), 0, executives.size()-1);
-				employee = new Manager(name, title, bonus, executives.get(superior));
+				employee = new Manager(name, title, executives.get(superior));
 				executives.get(superior).addSubordinate(employee);
 				managers.add((Manager) employee);
 			}
@@ -85,18 +87,26 @@ public class Company {
 			}
 			break;
 		}
+		//If associate, set superior, add to superior's subordinates, and add to associates ArrayList
 		case "a": {
 			if(managers.size() > 0) {
-				
+				System.out.println("Who is this associate's superior?");
+				int superior = InputHelper.readIntBetween(getEmployeeOfLevel("manager"), 0, managers.size()-1);
+				employee = new Associate(name, title, managers.get(superior));
+				managers.get(superior).addSubordinate(employee);
+				associates.add((Associate) employee);
 			}
+			else {
+				System.out.println("You must add a manager before adding an associate.");
+			}
+			break;
+		}
+		//If invalid option, print error and exit function
+		default: {
+			System.out.println("Not a valid level option.");
+			break;
 		}
 		}
-		//Use this code if creating new executive
-		/* 
-			String department = InputHelper.readString("What department is this executive in charge of?");
-			departmentToExecutive.put(department, employee);
-		*/
-		//employees.add(employee);
 	}
 	//Prints company departments and executives
 	public static void printDepartments() {
@@ -106,8 +116,11 @@ public class Company {
 		}
 	}
 	//Prints company employees
-	public static void printAllEmployees() {
-		//System.out.println("Company has employees " + employees);
+	public static void printEmployees() {
+		System.out.println("Company has employees:");
+		System.out.println(executives);
+		System.out.println(managers);
+		System.out.println(associates);
 	}
 
 	public static void main(String[] args) {

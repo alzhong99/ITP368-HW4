@@ -1,17 +1,16 @@
 
 public class Associate extends Employee {
-	private static int BASE_SALARY = 40000;
 	private Employee superior;
-	public Associate(String name, String title, int bonus, Employee superior) {
-		super(name, title, bonus);
+	public Associate(String name, String title, Employee superior) {
+		super(name, title);
 		// TODO Auto-generated constructor stub
 		this.superior = superior;
 	}
-	
-	@Override
-	public int calculatePay() {
-		// TODO Auto-generated method stub
-		return BASE_SALARY + this.bonus;
+	public String getSuperior() {
+		return superior.getName();
 	}
-
+	public String toString() {
+		String retVal = name + " has tasks " + tasks + "\n\t and has superior " + superior.getName();
+		return retVal;
+	}
 }
